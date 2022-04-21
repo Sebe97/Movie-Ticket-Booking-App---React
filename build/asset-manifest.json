@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/Movie-Ticket-Booking-App---React/static/css/main.ba12f1b5.chunk.css",
+    "main.js": "/Movie-Ticket-Booking-App---React/static/js/main.5990d6e2.chunk.js",
+    "main.js.map": "/Movie-Ticket-Booking-App---React/static/js/main.5990d6e2.chunk.js.map",
+    "runtime-main.js": "/Movie-Ticket-Booking-App---React/static/js/runtime-main.859fa46f.js",
+    "runtime-main.js.map": "/Movie-Ticket-Booking-App---React/static/js/runtime-main.859fa46f.js.map",
+    "static/css/2.4d0e5a2f.chunk.css": "/Movie-Ticket-Booking-App---React/static/css/2.4d0e5a2f.chunk.css",
+    "static/js/2.7d0ec02a.chunk.js": "/Movie-Ticket-Booking-App---React/static/js/2.7d0ec02a.chunk.js",
+    "static/js/2.7d0ec02a.chunk.js.map": "/Movie-Ticket-Booking-App---React/static/js/2.7d0ec02a.chunk.js.map",
+    "static/js/3.6a4820db.chunk.js": "/Movie-Ticket-Booking-App---React/static/js/3.6a4820db.chunk.js",
+    "static/js/3.6a4820db.chunk.js.map": "/Movie-Ticket-Booking-App---React/static/js/3.6a4820db.chunk.js.map",
+    "index.html": "/Movie-Ticket-Booking-App---React/index.html",
+    "static/css/2.4d0e5a2f.chunk.css.map": "/Movie-Ticket-Booking-App---React/static/css/2.4d0e5a2f.chunk.css.map",
+    "static/css/main.ba12f1b5.chunk.css.map": "/Movie-Ticket-Booking-App---React/static/css/main.ba12f1b5.chunk.css.map",
+    "static/js/2.7d0ec02a.chunk.js.LICENSE.txt": "/Movie-Ticket-Booking-App---React/static/js/2.7d0ec02a.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.859fa46f.js",
+    "static/css/2.4d0e5a2f.chunk.css",
+    "static/js/2.7d0ec02a.chunk.js",
+    "static/css/main.ba12f1b5.chunk.css",
+    "static/js/main.5990d6e2.chunk.js"
+  ]
+}
