@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDropdown from "react-dropdown";
 import { useHistory, useLocation, Link } from "react-router-dom";
 import "react-dropdown/style.css";
@@ -7,14 +7,18 @@ import fire from "../files/firebase";
 import "../movie_details.css";
 import { CenterFocusStrong } from "@material-ui/icons";
 import NavbarAdmin from "../components/NavbarAdmin";
+import { toast } from "react-toastify";
 
 export const MovieUpload = () => {
   const movieGenderList = ["Comedy", "Drama", "Action"];
   const [image, setimage] = useState(
     "https://blog.starzplay.com/wp-content/uploads/2016/02/teenwolf.jpg"
   );
+  const [theaterList, setTheaterList] = useState([]);
   const [movieName, setmovieName] = useState("Default name");
   const [movieGender, setMovieGender] = useState("Comedie");
+  const [theater, setTheater] = useState("Pitesti");
+  const [newTheater, setNewTheater] = useState("");
   const [ticketcost, setTicketCost] = useState("100");
   const [description, setdescription] = useState("Default description");
   const [actorname, setactorname] = useState("Default Actor Name");
@@ -24,6 +28,8 @@ export const MovieUpload = () => {
   const [viedo, setviedo] = useState(
     "https://www.youtube.com/watch?v=vXf3gVYXlHg"
   );
+
+  const [openModal, setOpenModal] = useState(false);
   const history = useHistory();
   const location = useLocation();
   const profile = location.state.profile;
@@ -51,10 +57,12 @@ export const MovieUpload = () => {
         .add({
           movieName: movieName,
           image: image,
+          //https://mediaguidegroup.com/wp-content/uploads/2021/10/city-hunter-review-action-packed-korean-drama-to-watch_616be1af4c0ab.jpeg
           viedourl: viedo,
           ticketcost: ticketcost,
           description: description,
           movieGender: movieGender,
+          theater: theater,
           actorname: actorname,
           directorname: directorname,
           releasedate: releasedate,
@@ -75,6 +83,54 @@ export const MovieUpload = () => {
         .catch((err) => console.log(err));
     }
   };
+
+  const addTheater = (e) => {
+    e.preventDefault();
+    setOpenModal(!openModal);
+  };
+
+  const saveTheater = (e) => {
+    e.preventDefault();
+    fire
+      .firestore()
+      .collection("theater")
+      .add({
+        theater: newTheater,
+      })
+      .then(() => {
+        toast.success("Movie Added Successfully");
+        setOpenModal(false);
+        // setimage("");
+        // setviedo("");
+        // setmovieName("");
+        // setTicketCost("");
+        // setdescription("");
+        // setactorname("");
+        // setdirectorname("");
+        // setreleasedate("");
+        // setoutdate("");
+      })
+      .catch((err) => toast.error(err));
+  };
+
+  useEffect(() => {
+    fire
+      .firestore()
+      .collection("theater")
+      .get()
+      .then((snapshot) => {
+        var tempTheater = [];
+        snapshot.forEach((doc) => {
+          tempTheater = tempTheater
+            ? [...tempTheater, doc.data().theater]
+            : [doc.data().theater];
+        });
+        setTheaterList(tempTheater);
+      });
+  }, [openModal]);
+
+  console.log("🚀 ~ theaterList", theaterList);
+
   return (
     <div className="wrapper ">
       <link
@@ -204,6 +260,43 @@ export const MovieUpload = () => {
                     placeholder="Select an option"
                   />
                 </div>
+                <div className="labelInputWrapper theater">
+                  <label className="formLabel" for="theater">
+                    Theater
+                  </label>
+                  <ReactDropdown
+                    controlClassName="myControlClassName"
+                    options={theaterList}
+                    onChange={(e) => {
+                      setTheater(e.value);
+                    }}
+                    value={theater}
+                    placeholder="Select an option"
+                  />
+                  <button onClick={(e) => addTheater(e)}>+</button>
+                </div>
+
+                {openModal && (
+                  <div className="labelInputWrapper">
+                    <label className="formLabel" for="addtheater">
+                      Add Theater
+                    </label>
+                    <input
+                      className="formInput"
+                      type="text"
+                      placeholder="Add Theater"
+                      value={newTheater}
+                      onChange={(e) => setNewTheater(e.target.value)}
+                    />
+                    <button
+                      onClick={(e) => {
+                        saveTheater(e);
+                      }}
+                    >
+                      Save theater
+                    </button>
+                  </div>
+                )}
 
                 <div className="labelInputWrapper">
                   <label className="formLabel" for="name">
@@ -260,7 +353,11 @@ export const MovieUpload = () => {
                   type="button"
                   style={{ background: "#ff4b2b", color: "white" }}
                   value="Upload Movie"
-                  onClick={movieUpload}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // setOpen  Modal(false);
+                    alert();
+                  }}
                 />
               </div>
             </form>
