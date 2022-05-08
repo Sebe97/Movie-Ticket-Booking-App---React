@@ -25,6 +25,10 @@ export const MovieUpload = () => {
   const [directorname, setdirectorname] = useState("Default director name");
   const [releasedate, setreleasedate] = useState("2022-03-22");
   const [outdate, setoutdate] = useState("2022-03-22");
+  const [availableHoursList, setAvailableHoursList] = useState([
+    8, 10, 12, 14, 16, 18, 20, 22,
+  ]);
+  const [selectedHour, setSelectedHour] = useState(8);
   const [viedo, setviedo] = useState(
     "https://www.youtube.com/watch?v=vXf3gVYXlHg"
   );
@@ -37,7 +41,9 @@ export const MovieUpload = () => {
   const email = location.state.email;
   const password = location.state.password;
   const mobile = location.state.mobile;
+
   const movieUpload = (e) => {
+    alert();
     e.preventDefault();
     if (
       movieName === "" ||
@@ -67,6 +73,7 @@ export const MovieUpload = () => {
           directorname: directorname,
           releasedate: releasedate,
           outdate: outdate,
+          selectedHour: selectedHour,
         })
         .then(() => {
           console.log("Movie Added Successfully");
@@ -112,6 +119,26 @@ export const MovieUpload = () => {
       })
       .catch((err) => toast.error(err));
   };
+  const getAvailableHours = (e) => {
+    fire
+      .firestore()
+      .collection("currentmovies")
+      .where("outdate", "==", outdate)
+      .get()
+      .then((snapshot) => {
+        var tempHours = [];
+        snapshot.forEach((doc) => {
+          tempHours = tempHours
+            ? [...tempHours, doc.data().selectedHour]
+            : [doc.data().selectedHour];
+        });
+        setAvailableHoursList(tempHours);
+      });
+  };
+
+  useEffect(() => {
+    console.log("availableHoursList", availableHoursList);
+  }, [availableHoursList]);
 
   useEffect(() => {
     fire
@@ -346,7 +373,24 @@ export const MovieUpload = () => {
                     type="date"
                     placeholder="Pick out Date"
                     value={outdate}
-                    onChange={(e) => setoutdate(e.target.value)}
+                    onChange={(e) => {
+                      setoutdate(e.target.value);
+                      getAvailableHours();
+                    }}
+                  />
+                </div>
+                <div className="labelInputWrapper pickHour">
+                  <label className="formLabel" for="pickHour">
+                    Pick Hour
+                  </label>
+                  <ReactDropdown
+                    controlClassName="myControlClassName"
+                    options={availableHoursList}
+                    onChange={(e) => {
+                      setSelectedHour(e.value);
+                    }}
+                    value={selectedHour.toString()}
+                    placeholder="Select an option"
                   />
                 </div>
                 <input
@@ -354,9 +398,7 @@ export const MovieUpload = () => {
                   style={{ background: "#ff4b2b", color: "white" }}
                   value="Upload Movie"
                   onClick={(e) => {
-                    e.preventDefault();
-                    // setOpen  Modal(false);
-                    alert();
+                    movieUpload(e);
                   }}
                 />
               </div>
