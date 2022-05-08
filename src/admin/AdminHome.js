@@ -21,8 +21,9 @@ export const AdminHome = () => {
 
   useEffect(() => {
     let moviesGroupedByGender = {
-      Comedie: [],
-      Action: [],
+      Bucuresti: [],
+      Pitesti: [],
+      Brasov: [],
       // Romance: [],
     }
     fire
@@ -32,7 +33,7 @@ export const AdminHome = () => {
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           var data = doc.data();
-          moviesGroupedByGender = { ...moviesGroupedByGender, [data.movieGender]: [...moviesGroupedByGender.[data.movieGender], data] };
+          moviesGroupedByGender = { ...moviesGroupedByGender, [data.theater]: moviesGroupedByGender.[data.theater]?[...moviesGroupedByGender.[data.theater], data]:data };
         });
         setMovieData(moviesGroupedByGender)
       });

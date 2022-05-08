@@ -59,13 +59,13 @@ export const HomePage = () => {
 
   useEffect(() => {
     let moviesGroupedByGender = {
-      Comedie: [],
-      Action: [],
+      // Comedie: [],
+      // Action: [],
       // Romance: [],
     };
 
     ungroupedMovieData.forEach((el) => {
-        moviesGroupedByGender = { ...moviesGroupedByGender, [el.movieGender]: [...moviesGroupedByGender.[el.movieGender], el] };
+        moviesGroupedByGender = { ...moviesGroupedByGender, [el.movieGender]: moviesGroupedByGender.[el.movieGender]?[...moviesGroupedByGender.[el.movieGender], el] :[el] };
     });
     setMovieData(moviesGroupedByGender);
   }, [ungroupedMovieData]);
